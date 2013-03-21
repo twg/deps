@@ -15,6 +15,11 @@
 # service sshd restart
 #
 dep "server" do
+  on :linux do
+    setup {
+      unmeetable! "This dep has to be run as root." unless shell('whoami') == 'root'
+    }
+  end
   requires [
     "selinux disabled",
     "daemons disabled",
@@ -22,21 +27,22 @@ dep "server" do
     "rubies",
     "legacy users deleted",
     "yum update",
-    "packages",
+    "build tools",
+    "standard.bin",
     "ntpdate",
     "ntpd",
     "ruby",
     "rubygems",
-    "version etc"
+    "symlink web directory",
+    "version etc",
+    "core software"
   ]
 end
 
-dep "daemon disabled", :daemon_name do
-  on :linux do
-    met? {
-      shell("systemctl is-enabled #{daemon_name}.service")[/enabled/]
-    }
-  end
+dep "daemon disabled", :daemon_name, :for => :linux do
+  met? {
+    shell("systemctl is-enabled #{daemon_name}.service")[/enabled/]
+  }
   meet {
     log_shell "#{daemon_name} disabled", "chkconfig --level 3 #{daemon_name} off"
   }
@@ -55,12 +61,10 @@ dep "daemons disabled" do
   end
 end
 
-dep "unused service disabled", :service_name do
-  on :linux do
-    met? {
-      shell("service #{service_name} status")[/inactive \(dead\)\b/]
-    }
-  end
+dep "unused service disabled", :service_name, :for => :linux do
+  met? {
+    shell("service #{service_name} status")[/inactive \(dead\)\b/]
+  }
   meet {
     log_shell "Turning off #{service_name}", "service #{service_name} stop"
   }
@@ -101,39 +105,31 @@ dep "yum update" do
   }
 end
 
-dep "packages", :template => "bin" do
-  package_list = %w( man nmap bind-util make patch gcc gcc-c++ autoconf automake libtool scons ntp )
-  %w( zblib readline openssl libxml2 libxslt ).each do |lib|
+dep "libs" do
+  package_list = %w( zblib readline openssl libxml2 libxslt )
+  package_list.each do |lib|
     package_list << lib
     package_list << "#{lib}-devel"
   end
   package_list += %w( ImageMagick-devel v8-devel )
-  installs {
-    via :yum, package_list
+end
+
+dep "ntpdate", :for => :linux do
+  met? {
+    shell("systemctl is-enabled ntpdate.service")[/enabled/]
   }
-  provides package_list
+  meet {
+    log_shell "NTP date service enabled", "systemctl enable ntpdate.service"
+  }
 end
 
-dep "ntpdate" do
-  on :linux do
-    met? {
-      shell("systemctl is-enabled ntpdate.service")[/enabled/]
-    }
-    meet {
-      log_shell "NTP date service enabled", "systemctl enable ntpdate.service"
-    }
-  end
-end
-
-dep "ntpd" do
-  on :linux do
-    met? {
-      shell("systemctl is-enabled ntpd.service")[/enabled/]
-    }
-    meet {
-      log_shell "NTP daemon service started", "systemctl start ntpd.service"
-    }
-  end
+dep "ntpd", :for => :linux do
+  met? {
+    shell("systemctl is-enabled ntpd.service")[/enabled/]
+  }
+  meet {
+    log_shell "NTP daemon service started", "systemctl start ntpd.service"
+  }
 end
 
 dep "version etc" do
@@ -152,9 +148,34 @@ end
 
 dep "symlink web directory" do
   met? {
-    shell("ls / | grep web")[/var\/www/]
+    shell?("ls / | grep web")[/var\/www/]
   }
   meet {
     log_shell "Linked /web to /var/www", "ln -s /var/www /web"
   }
+end
+
+dep "standard.bin", :template => "bin" do
+  package_list = %w( man nmap bind-util make patch scons ntp )
+  installs {
+    via :yum, package_list
+  }
+  provides package_list
+end
+
+dep 'core software' do
+  requires [
+    'curl.bin',
+    #'sudo.bin',
+    'vim.bin',
+    "imagemagick.managed",
+    #'lsof.bin',
+    #'traceroute.bin',
+    #'htop.bin',
+    #'iotop.bin',
+    #'tmux.bin',
+    #'nmap.bin',
+    'tree.bin',
+    #'pv.bin'
+  ]
 end
