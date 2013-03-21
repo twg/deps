@@ -1,5 +1,12 @@
 dep "packages" do
-  requires %w( perl.bin vim.bin lsof.bin tree.bin pv.bin htop.bin )
+  requires %w(
+    perl.bin
+    vim.bin
+    lsof.bin
+    tree.bin
+    pv.bin
+    htop.bin
+  )
 end
 
 dep "perl.bin"

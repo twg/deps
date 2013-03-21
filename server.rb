@@ -17,9 +17,7 @@ dep "server" do
     "daemons disabled",
     "unused services disabled",
     "legacy users deleted",
-    "yum update",
-    "build tools",
-    "standard.bin",
+    "update.task",
     "ntpdate",
     "ntpd",
     "ruby",
@@ -29,21 +27,6 @@ dep "server" do
     "packages",
     "rbenv"
   ]
-end
-
-dep "daemon disabled", :daemon_name, :for => :linux do
-  met? {
-    shell("systemctl is-enabled #{daemon_name}.service")[/enabled/]
-  }
-  meet {
-    log_shell "#{daemon_name} disabled", "chkconfig --level 3 #{daemon_name} off"
-  }
-end
-
-dep "daemons disabled" do
-  %w( netfs nfslock rpcbind rpcgssd rpcidmapd sendmail ).each do |daemon|
-    requires "daemon disabled".with(:daemon_name => daemon)
-  end
 end
 
 dep "unused service disabled", :service_name, :for => :linux do
@@ -76,10 +59,8 @@ dep "legacy users deleted", :for => :linux do
   end
 end
 
-dep "yum update", :for => :linux do
-  meet {
-    log_shell "Update packages", "yum update -y"
-  }
+dep "update.task", :for => :linux do
+  log_shell "Update packages", "yum update -y"
 end
 
 dep "libs" do
