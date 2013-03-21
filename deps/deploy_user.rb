@@ -29,11 +29,14 @@ dep 'passwordless ssh logins', :username, :key do
 end
 
 dep 'public key', :username do
+  def hostname
+    shell "hostname -f"
+  end
   met? {
     '~/.ssh/id_dsa.pub'.p.grep(/^ssh-rsa/)
   }
   meet {
-    log shell "Generated keypair", "ssh-keygen -t rsa -f ~/.ssh/id_dsa -P '' -C '#{username}@'"
+    log shell "Generated keypair", "ssh-keygen -t rsa -f ~/.ssh/id_dsa -P '' -C '#{username}@#{hostname}'"
   }
 end
 
@@ -70,7 +73,7 @@ dep 'user exists with password', :username, :password do
 end
 
 dep 'user exists', :username, :home_dir_base do
-  home_dir_base.default(username['.'] ? '/srv/http' : '/home')
+  home_dir_base.default('/home')
 
   on :osx do
     met? { !shell("dscl . -list /Users").split("\n").grep(username).empty? }
@@ -92,6 +95,7 @@ dep 'user exists', :username, :home_dir_base do
       sudo "chmod 701 '#{homedir}'"
     }
   end
+
   on :linux do
     met? { '/etc/passwd'.p.grep(/^#{username}:/) }
     meet {

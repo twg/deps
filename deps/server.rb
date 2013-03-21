@@ -4,15 +4,7 @@
 # export RAILS_ENV=production or staging
 # export RACK_ENV=production or staging
 #
-# useradd deploy
-#
-# usermod -G wheel deploy
-#
-# chown -R deploy:deploy /web
-#
-# perl -pi -e 's/\#PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
-# perl -pi -e 's/^PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
-# service sshd restart
+# install readline zlib v8lib
 #
 dep "server" do
   on :linux do
@@ -35,7 +27,7 @@ dep "server" do
     "rubygems",
     "symlink web directory",
     "version etc",
-    "core software"
+    "packages"
   ]
 end
 
@@ -49,14 +41,7 @@ dep "daemon disabled", :daemon_name, :for => :linux do
 end
 
 dep "daemons disabled" do
-  daemons = [
-    "netfs",
-    "nfslock",
-    "rpcbind",
-    "rpcgssd",
-    "rpcidmapd",
-    "sendmail"
-  ].each do |daemon|
+  %w( netfs nfslock rpcbind rpcgssd rpcidmapd sendmail ).each do |daemon|
     requires "daemon disabled".with(:daemon_name => daemon)
   end
 end
@@ -70,43 +55,35 @@ dep "unused service disabled", :service_name, :for => :linux do
   }
 end
 
-dep "unused services disabled" do
-  legacy_users = [ "sendmail", "netfs" ].each do |service|
+dep "unused services disabled", :for => :linux do
+  %w( sendmail netfs ).each do |service|
     requires "unused service disabled".with(:service_name => service)
   end
 end
 
 dep "legacy user deleted", :username do
   met? {
-    !"/etc/passwd".p.grep(/^#{Regexp.quote(username)}\:/)
+    !"/etc/passwd".p.grep(/^#{username}\:/)
   }
   meet {
     "userdel #{username}"
   }
 end
 
-dep "legacy users deleted" do
-  legacy_users = [
-    "sync",
-    "shutdown",
-    "halt",
-    "games",
-    "gopher",
-    "ftp",
-    "lp"
-  ].each do |user|
+dep "legacy users deleted", :for => :linux do
+  %w( sync shutdown halt games gopher ftp lp ).each do |user|
     requires "legacy user deleted".with(:username => user)
   end
 end
 
-dep "yum update" do
+dep "yum update", :for => :linux do
   meet {
     log_shell "Update packages", "yum update -y"
   }
 end
 
 dep "libs" do
-  package_list = %w( zblib readline openssl libxml2 libxslt )
+  package_list = %w( readline )
   package_list.each do |lib|
     package_list << lib
     package_list << "#{lib}-devel"
@@ -132,7 +109,7 @@ dep "ntpd", :for => :linux do
   }
 end
 
-dep "version etc" do
+dep "version etc", :for => :linux do
   requires "git.bin"
   requires "perl.bin"
   commands = [
@@ -146,7 +123,7 @@ dep "version etc" do
   log_shell "Version the /etc directory", commands
 end
 
-dep "symlink web directory" do
+dep "symlink web directory", :for => :linux do
   met? {
     shell?("ls / | grep web")[/var\/www/]
   }
@@ -155,27 +132,29 @@ dep "symlink web directory" do
   }
 end
 
-dep "standard.bin", :template => "bin" do
-  package_list = %w( man nmap bind-util make patch scons ntp )
-  installs {
-    via :yum, package_list
+dep "root login disabled" do
+  requires "perl.bin"
+  met? {
+    "/etc/ssh/sshd_config".p.grep(/^PermitRootLogin no/)
   }
-  provides package_list
+  meet {
+    shell "perl -pi -e 's/\#PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config"
+  }
 end
 
-dep 'core software' do
-  requires [
-    'curl.bin',
-    #'sudo.bin',
-    'vim.bin',
-    "imagemagick.managed",
-    #'lsof.bin',
-    #'traceroute.bin',
-    #'htop.bin',
-    #'iotop.bin',
-    #'tmux.bin',
-    #'nmap.bin',
-    'tree.bin',
-    #'pv.bin'
-  ]
+dep "password authentication disabled" do
+  met? {
+    "/etc/ssh/sshd_config".p.grep(/^PasswordAuthentication no/)
+  }
+  meet {
+    shell "perl -pi -e 's/^PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config"
+  }
+end
+
+dep "login fixed" do
+  requires "root login disabled"
+  requires "password authentication disabled"
+  after {
+    shell "service sshd restart"
+  }
 end
