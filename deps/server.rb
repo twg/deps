@@ -16,7 +16,6 @@ dep "server" do
     "selinux disabled",
     "daemons disabled",
     "unused services disabled",
-    "rubies",
     "legacy users deleted",
     "yum update",
     "build tools",
@@ -27,7 +26,8 @@ dep "server" do
     "rubygems",
     "symlink web directory",
     "version etc",
-    "packages"
+    "packages",
+    "rbenv"
   ]
 end
 

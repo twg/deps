@@ -1,4 +1,4 @@
-dep "rubies" do
+dep "rbenv" do
   requires "ruby-build"
   versions = [ "2.0.0-p0", "1.9.3-p392" ]
   met? {
@@ -13,7 +13,7 @@ dep "rubies" do
   }
 end
 
-dep "rbenv" do
+dep "rbenv installed" do
   met? {
     in_path? "rbenv"
   }
@@ -26,7 +26,7 @@ dep "rbenv" do
 end
 
 dep "ruby-build" do
-  requires "rbenv"
+  requires "rbenv installed"
   met? {
     "~/.rbenv/plugins/ruby-build".p.exists?
   }
