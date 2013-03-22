@@ -14,6 +14,8 @@ dep "packages" do
     "logrotate.bin",
     "nmap.bin",
     "wget.bin",
+    "v8.lib",
+    "v8 headers.lib",
     "imagemagick.managed",
     "imagemagick headers.lib",
     "libxml.lib",
@@ -107,3 +109,12 @@ dep 'readline headers.lib' do
     via :yum, "readline-devel"
   }
 end
+
+dep "v8.lib" do
+  installs "v8"
+end
+
+dep "v8 headers.lib" do
+  installs "v8-devel"
+end
+
