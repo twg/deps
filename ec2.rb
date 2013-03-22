@@ -5,11 +5,12 @@
 # export RACK_ENV=production or staging
 # based on conditional
 #
+# mount /web directory
 #
 dep "ec2" do
-  # setup {
-  #   unmeetable! "This dep has to be run as root." unless shell('whoami') == 'root'
-  # }
+  setup {
+    unmeetable! "This dep has to be run as root." unless shell('whoami') == 'root'
+  }
   requires [
     "selinux disabled",
     "daemons disabled",
@@ -18,30 +19,17 @@ dep "ec2" do
     "update.task",
     "ruby",
     "rubygems",
-    "version etc",
     "packages",
     "rbenv",
-    "v8.lib"
+    "v8.lib",
+    "web directory",
+    "version etc",
   ]
 end
 
 # Required because the standard babushka script doesn't call yum update
 dep "update.task" do
   log_shell "Update packages", "yum update -y"
-end
-
-dep "version etc" do
-  requires "git.bin"
-  requires "perl.bin"
-  commands = [
-    "cd /etc",
-    "git init",
-    "git add .",
-    "git config user.name 'System Admin'",
-    "git config user.email 'admin@twg.ca'",
-    "git commit -m 'Initial configuration'"
-  ].join(" && ")
-  log_shell "Version the /etc directory", commands
 end
 
 dep "root login disabled" do
@@ -74,3 +62,44 @@ end
 dep "v8.lib" do
   installs %w( libv8 )
 end
+
+deb "web directory" do
+  #see if it is attached with:
+  #
+  #$ sudo fdisk -l
+  #=> Disk /dev/xvdf: 10.7 GB, 10737418240 bytes
+  #
+  #Format it
+  #$ sudo mkfs -t ext4 /dev/xvdf
+  #
+  #Create dir where it will be mounted:
+  #$ mkdir /web
+  #
+  #That's it you can mount it:
+  #$ sudo mount /dev/xvdf /mnt
+  #
+  #Check if it has been mounted correctly with:
+  #$ mount -l
+  #/dev/xvdf on /mnt type ext4 (rw)
+  #
+  #Make it to mount automatically on system start
+  #$ sudo vim  /etc/fstab
+  #
+  #and add this:
+  #/dev/xvdf       /mnt1   auto    defaults,nobootwait     0       0
+end
+
+dep "version etc" do
+  requires "git.bin"
+  requires "perl.bin"
+  commands = [
+    "cd /etc",
+    "git init",
+    "git add .",
+    "git config user.name 'System Admin'",
+    "git config user.email 'admin@twg.ca'",
+    "git commit -m 'Initial configuration'"
+  ].join(" && ")
+  log_shell "Version the /etc directory", commands
+end
+
