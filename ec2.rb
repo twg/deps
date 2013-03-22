@@ -29,7 +29,7 @@ dep "ec2" do
     "web directory",
     "login fixed",
     "version etc",
-    "deploy user.task"
+    "deploy user"
   ]
 end
 
