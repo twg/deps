@@ -123,13 +123,18 @@ end
 dep "version etc" do
   requires "git.bin"
   requires "perl.bin"
-  commands = [
-    "cd /etc",
-    "git init",
-    "git add .",
-    "git config user.name 'System Admin'",
-    "git config user.email 'admin@twg.ca'",
-    "git commit -m 'Initial configuration'"
-  ].join(" && ")
-  log_shell "Version the /etc directory", commands
+  met? {
+    "/etc/.git".p.exists?
+  }
+  meet {
+    commands = [
+      "cd /etc",
+      "git init",
+      "git add .",
+      "git config user.name 'System Admin'",
+      "git config user.email 'admin@twg.ca'",
+      "git commit -m 'Initial configuration'"
+    ].join(" && ")
+    log_shell "Version the /etc directory", commands
+  }
 end
