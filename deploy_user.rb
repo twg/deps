@@ -3,7 +3,7 @@ dep "deploy user" do
   requires "deploy group"
 
   met? {
-    "/etc/passwd".p.grep("deploy")
+    "/etc/passwd".p.grep(/^deploy/)
   }
 
   meet {
@@ -20,7 +20,7 @@ end
 
 dep "deploy group" do
   met? {
-    "/etc/group".p.grep("deploy")
+    "/etc/group".p.grep(/^deploy/)
   }
   meet {
     shell "groupadd deploy"
