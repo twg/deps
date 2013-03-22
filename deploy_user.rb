@@ -1,4 +1,6 @@
 dep "deploy user.task" do
+  requires "web directory"
+
   shell "groupadd deploy"
   shell "useradd deploy -g deploy"
   # usermod -G wheel deploy
