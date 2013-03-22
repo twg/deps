@@ -13,16 +13,18 @@ dep "ec2" do
   }
   requires [
     "selinux disabled",
-    "daemons disabled",
-    "unused services disabled",
+#    "daemons disabled",
+#    "unused services disabled",
     "legacy users removed",
     "update.task",
     "ruby",
     "rubygems",
     "packages",
-    "rbenv",
+#    "rbenv",
     "v8.lib",
+    "v8 headers.lib",
     "web directory",
+    "login fixed",
     "version etc",
   ]
 end
@@ -60,10 +62,14 @@ dep "login fixed" do
 end
 
 dep "v8.lib" do
-  installs %w( libv8 )
+  installs "v8"
 end
 
-deb "web directory" do
+dep "v8 headers.lib" do
+  installs "v8-devel"
+end
+
+dep "web directory" do
   #see if it is attached with:
   #
   #$ sudo fdisk -l

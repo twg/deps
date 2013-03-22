@@ -1,4 +1,4 @@
-dep "rbenv installed" do
+dep "rbenv" do
   met? {
     in_path? "rbenv"
   }

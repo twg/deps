@@ -38,12 +38,16 @@ dep "nmap.bin"
 dep 'wget.bin'
 
 dep 'imagemagick.managed' do
+  installs {
+    via :brew, "imagemagick"
+    via :yum, "ImageMagick"
+  }
   provides %w( animate compare composite conjure convert display identify import mogrify montage stream )
 end
 
 dep 'imagemagick headers.lib' do
   installs {
-    via :yum, "imagemagick-devel"
+    via :yum, "ImageMagick-devel"
   }
 end
 
