@@ -29,21 +29,6 @@ dep "server" do
   ]
 end
 
-dep "unused service disabled", :service_name, :for => :linux do
-  met? {
-    shell("service #{service_name} status")[/inactive \(dead\)\b/]
-  }
-  meet {
-    log_shell "Turning off #{service_name}", "service #{service_name} stop"
-  }
-end
-
-dep "unused services disabled", :for => :linux do
-  %w( sendmail netfs ).each do |service|
-    requires "unused service disabled".with(:service_name => service)
-  end
-end
-
 dep "legacy user deleted", :username do
   met? {
     !"/etc/passwd".p.grep(/^#{username}\:/)
