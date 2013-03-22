@@ -32,3 +32,12 @@ dep "logrotate.bin"
 dep "nmap.bin"
 dep 'wget.bin'
 
+dep "vim config" do
+  met? {
+    "~/.vim/vimrc".p.exists?
+  }
+  meet {
+    git "git://github.com/wlangstroth/dotvim.git", :to => "~/.vim"
+    shell("cd ~/.vim && ./setup")
+  }
+end

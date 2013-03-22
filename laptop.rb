@@ -3,6 +3,7 @@ dep "laptop" do
     "ruby",
     "rubygems",
     "utilities",
+    "vim config",
     "libraries",
     "ruby-build",
     "2.0.0.rbenv",
