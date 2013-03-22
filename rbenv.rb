@@ -13,6 +13,11 @@ dep "rbenv" do
   }
 end
 
+meta :rbenv do
+  accepts_value_for :version, :basename
+  accepts_value_for :patchlevel
+end
+
 dep "rbenv installed" do
   met? {
     in_path? "rbenv"
