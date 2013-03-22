@@ -2,7 +2,10 @@ dep "apps" do
   requires [
     "Google Chrome.app",
     "Skitch.app",
-    "1Password.app"
+    "1Password.app",
+    "Dropbox.app",
+    "Firefox.app",
+    "Postgres.app"
   ]
 end
 
@@ -20,4 +23,16 @@ end
 
 dep "1Password.app" do
   source "https://d13itkw33a7sus.cloudfront.net/dist/1P/mac/1Password-3.8.20.zip"
+end
+
+dep "Postgres.app" do
+  source "http://postgresapp.com/download"
+end
+
+dep "Dropbox.app" do
+  source 'http://cdn.dropbox.com/Dropbox%201.2.49.dmg'
+end
+
+dep "Firefox.app" do
+  source "https://download.mozilla.org/?product=firefox-19.0.2&os=osx&lang=en-US"
 end
