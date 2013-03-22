@@ -1,6 +1,5 @@
 dep "deploy user" do
   requires "deploy user owns web"
-  requires "bundler.gem"
 end
 
 dep "deploy user exists" do
@@ -41,5 +40,3 @@ dep "deploy user owns web" do
     shell "chown -R deploy:deploy /web"
   }
 end
-
-dep "bundler.gem"
