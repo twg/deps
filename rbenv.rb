@@ -4,6 +4,8 @@ dep "rbenv" do
   }
   meet {
     git "https://github.com/sstephenson/rbenv.git", :to => "~/.rbenv"
+    shell "echo 'export PATH=\"$HOME/.rbenv/bin:$PATH\"' >> ~/.bash_profile"
+    shell "echo 'eval \"$(rbenv init -)\"' >> ~/.bash_profile"
   }
   after {
     log_shell 'Rehashing rbenv bin directory', 'rbenv rehash'
@@ -11,7 +13,7 @@ dep "rbenv" do
 end
 
 dep "ruby-build" do
-  requires "rbenv installed"
+  requires "rbenv"
   met? {
     "~/.rbenv/plugins/ruby-build".p.exists?
   }
@@ -28,7 +30,7 @@ dep "2.0.0.rbenv" do
 end
 
 dep '1.9.3.rbenv' do
-  patchlevel '392'
+  patchlevel "392"
 end
 
 dep "ree.rbenv" do
