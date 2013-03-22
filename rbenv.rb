@@ -4,9 +4,10 @@ dep "rbenv" do
     in_path? "rbenv"
   }
   meet {
-    git "https://github.com/sstephenson/rbenv.git", :to => "~/.rbenv"
-    "~/.bash_profile".p.append('export PATH="$HOME/.rbenv/bin:$PATH"')
-    "~/.bash_profile".p.append('eval "$(rbenv init -)"')
+    git "https://github.com/sstephenson/rbenv.git", :to => "~/.rbenv" and
+    "~/.bash_profile".p.append('export PATH="$HOME/.rbenv/bin:$PATH"') and
+    "~/.bash_profile".p.append('eval "$(rbenv init -)"') and
+    shell "source ~/.bash_profile"
   }
   after {
     log_shell 'Rehashing rbenv bin directory', 'rbenv rehash'
