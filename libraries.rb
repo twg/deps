@@ -8,7 +8,8 @@ dep "libraries" do
     "libxml.lib",
     "libxml headers.lib",
     "libxslt.lib",
-    "libxslt headers.lib"
+    "libxslt headers.lib",
+    "yaml headers.lib"
   ]
 end
 
@@ -75,10 +76,9 @@ dep 'zlib headers.lib' do
   }
 end
 
-dep 'yaml headers.lib' do
+dep "yaml headers.lib" do
   installs {
-    via :brew, 'libyaml'
-    via :yum, 'libyaml-devel'
+    via :yum, "libyaml-devel"
   }
 end
 
