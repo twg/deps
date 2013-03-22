@@ -2,8 +2,11 @@ meta :rbenv do
   accepts_value_for :version, :basename
   accepts_value_for :patchlevel
   template {
+    def patch
+      "p#{patchlevel}"
+    end
     def version_spec
-      "#{version}-p#{patchlevel}"
+      "#{version}-#{patch}"
     end
     def prefix
       "~/.rbenv/versions" / version_spec
@@ -14,7 +17,7 @@ meta :rbenv do
     requires 'ruby-build', 'yaml headers.managed', 'openssl.lib'
     met? {
       (prefix / 'bin/ruby').executable? and
-      shell(prefix / 'bin/ruby -v')[/^ruby #{version}p#{patchlevel}\b/]
+      shell(prefix / 'bin/ruby -v')[/^ruby #{version}#{patch}\b/]
     }
     meet {
       shell "rbenv install #{version_spec}"
