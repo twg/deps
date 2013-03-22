@@ -85,10 +85,16 @@ dep 'zlib headers.lib' do
   }
 end
 
-dep 'yaml headers.managed' do
+dep 'yaml headers.lib' do
   installs {
     via :brew, 'libyaml'
     via :yum, 'libyaml-devel'
   }
-  provides []
+end
+
+dep 'readline headers.lib' do
+  installs {
+    via :brew, "readline"
+    via :yum, "readline-devel"
+  }
 end
