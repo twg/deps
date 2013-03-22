@@ -1,26 +1,31 @@
 # This set of deps is currently Fedora-specific
 #
 # TODO:
-# export RAILS_ENV=production or staging
-# export RACK_ENV=production or staging
-# based on conditional
+# 1. export RAILS_ENV=production or staging
+#    export RACK_ENV=production or staging
+#    (based on conditional)
 #
-# mount /web directory
+# 2. mount /web directory, which is a separate EBS volume
 #
+# 3. Create deploy user w/keys
+#
+# 4. add deploy key to two-deploy github user (if possible to automate)
+
+
+# This script is meant to be run as root, and then use the deploy_user script
+# with the newly created deploy user.
 dep "ec2" do
   setup {
     unmeetable! "This dep has to be run as root." unless shell('whoami') == 'root'
   }
   requires [
+    "which.bin",
     "selinux disabled",
-#    "daemons disabled",
-#    "unused services disabled",
     "legacy users removed",
     "update.task",
     "ruby",
     "rubygems",
     "packages",
-#    "rbenv",
     "v8.lib",
     "v8 headers.lib",
     "web directory",
