@@ -2,13 +2,18 @@ dep "packages" do
   requires [
     "perl.bin",
     "vim.bin",
+    "emacs.bin",
     "lsof.bin",
     "tree.bin",
     "pv.bin",
     "htop.bin",
+    "iotop.bin",
+    "ncdu.bin",
     "wget.bin",
     "traceroute.bin",
     "logrotate.bin",
+    "nmap.bin",
+    "wget.bin",
     "imagemagick.managed",
     "imagemagick headers.lib",
     "libxml.lib",
@@ -20,15 +25,17 @@ end
 
 dep "perl.bin"
 dep "vim.bin"
+dep "emacs.bin"
 dep "lsof.bin"
 dep "tree.bin"
 dep "pv.bin"
 dep "htop.bin"
+dep "iotop.bin"
 dep "ncdu.bin"
 dep "traceroute.bin"
+dep "logrotate.bin"
 dep "nmap.bin"
 dep 'wget.bin'
-dep "logrotate.bin"
 
 dep 'imagemagick.managed' do
   provides %w( animate compare composite conjure convert display identify import mogrify montage stream )
@@ -36,45 +43,43 @@ end
 
 dep 'imagemagick headers.lib' do
   installs {
-    via :yum, %w( imagemagick-devel )
+    via :yum, "imagemagick-devel"
   }
 end
 
 dep 'libxml.lib' do
   installs {
-    via :brew, %w( libxml2 )
-    via :yum, %w( libxml )
+    via :brew, "libxml2"
+    via :yum, "libxml"
   }
 end
 
 dep 'libxml headers.lib' do
   installs {
-    via :brew, [] # already installed with libxml2
-    via :yum, %w( libxml-devel )
+    via :yum, "libxml-devel"
   }
 end
 
 dep 'libxslt.lib' do
-  installs %w( libxslt )
+  installs "libxslt"
 end
 
 dep 'libxslt headers.lib' do
   installs {
-    via :brew, [] # already installed with libxslt
-    via :yum, %w( libxslt-devel )
+    via :yum, "libxslt-devel"
   }
 end
 
 dep 'openssl.bin'
 dep 'openssl.lib' do
   installs {
-    via :yum, %w( openssl-libs )
+    via :yum, "openssl-libs"
   }
 end
 
-dep 'openssl headers.managed' do
+dep 'openssl headers.lib' do
   installs {
-    via :yum, 'openssl-libs'
+    via :yum, 'openssl-devel'
   }
   provides []
 end
