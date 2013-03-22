@@ -1,6 +1,6 @@
-dep "deploy user exists" do
+dep "deploy user" do
   requires "web directory"
-  requires "deploy group exists"
+  requires "deploy group"
 
   met? {
     "/etc/passwd".p.grep("deploy")
@@ -18,7 +18,7 @@ dep "deploy user exists" do
   }
 end
 
-dep "deploy group exists" do
+dep "deploy group" do
   met? {
     "/etc/group".p.grep("deploy")
   }
