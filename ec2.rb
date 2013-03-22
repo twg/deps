@@ -7,9 +7,9 @@
 #
 #
 dep "ec2" do
-  setup {
-    unmeetable! "This dep has to be run as root." unless shell('whoami') == 'root'
-  }
+  # setup {
+  #   unmeetable! "This dep has to be run as root." unless shell('whoami') == 'root'
+  # }
   requires [
     "selinux disabled",
     "daemons disabled",
