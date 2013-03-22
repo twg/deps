@@ -2,9 +2,14 @@
 
 Collections of dependencies to put into `~/.babushka/deps`.
 
+To try it out on your laptop,
+
+    $ bash -c "`curl babushka.me/up`"
+    $ babushka twg:laptop
+
 When you get prompted for where to install babushka, the default is
-`/usr/local/babushka`. For most distros, entering `/usr/babushka` when prompted
-makes the process go smoother.
+`/usr/local/babushka`. For your laptop, that's fine. For linux distros, entering
+`/usr/babushka` when prompted makes the process go smoother.
 
 ## Deps and templates
 
