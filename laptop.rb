@@ -4,6 +4,7 @@ dep "laptop" do
     "rubygems",
     "packages",
     "rbenv",
-    "pow"
+    "pow",
+    "apps"
   ]
 end

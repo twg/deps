@@ -1,12 +1,19 @@
 dep "packages" do
-  requires %w(
-    perl.bin
-    vim.bin
-    lsof.bin
-    tree.bin
-    pv.bin
-    htop.bin
-  )
+  requires [
+    "perl.bin",
+    "vim.bin",
+    "lsof.bin",
+    "tree.bin",
+    "pv.bin",
+    "htop.bin",
+    "traceroute.bin",
+    "imagemagick.managed",
+    "imagemagick headers.lib",
+    "libxml.lib",
+    "libxml headers.lib",
+    "libxslt.lib",
+    "libxslt headers.lib"
+  ]
 end
 
 dep "perl.bin"
@@ -14,12 +21,8 @@ dep "vim.bin"
 dep "lsof.bin"
 dep "tree.bin"
 dep "pv.bin"
-dep "htop.bin" do
-  installs {
-    via :brew, "htop"
-    via :yum, "htop"
-  }
-end
+dep "htop.bin"
+dep "ncdu.bin"
 dep "traceroute.bin"
 dep "nmap.bin"
 
@@ -27,40 +30,38 @@ dep 'imagemagick.managed' do
   provides %w( animate compare composite conjure convert display identify import mogrify montage stream )
 end
 
-dep 'libxml.lib' do
+dep 'imagemagick headers.lib' do
   installs {
-    via :yum, %w( libxml )
+    via :yum, %w( imagemagick-devel )
   }
-  provides []
 end
 
-dep 'libxml headers.managed' do
+dep 'libxml.lib' do
   installs {
+    via :brew, %w( libxml2 )
+    via :yum, %w( libxml )
+  }
+end
+
+dep 'libxml headers.lib' do
+  installs {
+    via :brew, [] # already installed with libxml2
     via :yum, %w( libxml-devel )
   }
-  provides []
 end
 
 dep 'libxslt.lib' do
-  installs {
-    via :yum, %w( libxslt )
-  }
+  installs %w( libxslt )
 end
 
-dep 'libxslt headers.managed' do
+dep 'libxslt headers.lib' do
   installs {
+    via :brew, [] # already installed with libxslt
     via :yum, %w( libxslt-devel )
   }
-  provides []
 end
 
-dep 'openssl.managed' do
-  installs {
-    via :yum, %w( openssl )
-  }
-  provides %w( openssl  )
-end
-
+dep 'openssl.bin'
 dep 'openssl.lib' do
   installs {
     via :yum, %w( openssl-libs )
@@ -74,12 +75,10 @@ dep 'openssl headers.managed' do
   provides []
 end
 
-dep 'zlib headers.managed' do
+dep 'zlib headers.lib' do
   installs {
     via :yum, 'zlib-devel'
   }
-  provides []
 end
 
-dep "logrotate.managed"
-
+dep "logrotate.bin"
