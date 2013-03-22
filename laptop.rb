@@ -6,7 +6,7 @@ dep "laptop" do
     "ruby-build",
     "2.0.0.rbenv",
     "1.9.3.rbenv",
-    "pow",
+    "powder.gem",
     "apps"
   ]
 end

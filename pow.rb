@@ -1,11 +1,5 @@
 dep "pow" do
-  requires [
-    "ruby-build",
-    "powder.gem"
-  ]
-end
-
-dep "pow installed" do
+  requires "ruby-build"
   met? {
     "~/Library/Application Support/Pow/Current/bin/pow".p.exists?
   }
@@ -15,5 +9,5 @@ dep "pow installed" do
 end
 
 dep "powder.gem" do
-  requires "pow installed"
+  requires "pow"
 end
