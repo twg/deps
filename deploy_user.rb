@@ -30,7 +30,7 @@ end
 dep "deploy user owns web" do
   met? {
     # FIXME: This is a weak test
-    shell "ls -l / | grep 'deploy deploy'"
+    shell? "ls -l / | grep 'deploy deploy'"
   }
   meet {
     shell "chown -R deploy:deploy /web"
