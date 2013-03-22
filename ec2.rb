@@ -102,4 +102,3 @@ dep "version etc" do
   ].join(" && ")
   log_shell "Version the /etc directory", commands
 end
-
