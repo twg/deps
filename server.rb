@@ -16,32 +16,14 @@ dep "server" do
     "selinux disabled",
     "daemons disabled",
     "unused services disabled",
-    "legacy users deleted",
+    "legacy users removed",
     "update.task",
-    "ntpdate",
-    "ntpd",
     "ruby",
     "rubygems",
-    "symlink web directory",
     "version etc",
     "packages",
     "rbenv"
   ]
-end
-
-dep "legacy user deleted", :username do
-  met? {
-    !"/etc/passwd".p.grep(/^#{username}\:/)
-  }
-  meet {
-    "userdel #{username}"
-  }
-end
-
-dep "legacy users deleted", :for => :linux do
-  %w( sync shutdown halt games gopher ftp lp ).each do |user|
-    requires "legacy user deleted".with(:username => user)
-  end
 end
 
 dep "update.task", :for => :linux do
@@ -57,24 +39,6 @@ dep "libs" do
   package_list += %w( ImageMagick-devel v8-devel )
 end
 
-dep "ntpdate", :for => :linux do
-  met? {
-    shell("systemctl is-enabled ntpdate.service")[/enabled/]
-  }
-  meet {
-    log_shell "NTP date service enabled", "systemctl enable ntpdate.service"
-  }
-end
-
-dep "ntpd", :for => :linux do
-  met? {
-    shell("systemctl is-enabled ntpd.service")[/enabled/]
-  }
-  meet {
-    log_shell "NTP daemon service started", "systemctl start ntpd.service"
-  }
-end
-
 dep "version etc", :for => :linux do
   requires "git.bin"
   requires "perl.bin"
@@ -87,15 +51,6 @@ dep "version etc", :for => :linux do
     "git commit -m 'Initial configuration'"
   ].join(" && ")
   log_shell "Version the /etc directory", commands
-end
-
-dep "symlink web directory", :for => :linux do
-  met? {
-    shell?("ls / | grep web")[/var\/www/]
-  }
-  meet {
-    log_shell "Linked /web to /var/www", "ln -s /var/www /web"
-  }
 end
 
 dep "root login disabled" do
