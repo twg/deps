@@ -19,15 +19,13 @@ dep "ec2" do
     unmeetable! "This dep has to be run as root." unless shell('whoami') == 'root'
   }
   requires [
-    "which.bin",
+    "update.task",
+    "utilities",
+    "libraries",
     "selinux disabled",
     "legacy users removed",
-    "update.task",
     "ruby",
     "rubygems",
-    "packages",
-    "v8.lib",
-    "v8 headers.lib",
     "web directory",
     "login fixed",
     "version etc",
@@ -66,38 +64,59 @@ dep "login fixed" do
   }
 end
 
-dep "v8.lib" do
-  installs "v8"
-end
-
-dep "v8 headers.lib" do
-  installs "v8-devel"
-end
-
 dep "web directory" do
-  #see if it is attached with:
-  #
-  #$ sudo fdisk -l
-  #=> Disk /dev/xvdf: 10.7 GB, 10737418240 bytes
-  #
-  #Format it
-  #$ sudo mkfs -t ext4 /dev/xvdf
-  #
-  #Create dir where it will be mounted:
-  #$ mkdir /web
-  #
-  #That's it you can mount it:
-  #$ sudo mount /dev/xvdf /mnt
-  #
-  #Check if it has been mounted correctly with:
-  #$ mount -l
-  #/dev/xvdf on /mnt type ext4 (rw)
-  #
-  #Make it to mount automatically on system start
-  #$ sudo vim  /etc/fstab
-  #
-  #and add this:
-  #/dev/xvdf       /mnt1   auto    defaults,nobootwait     0       0
+  requires [
+    "web drive available",
+    "web drive formatted",
+    "web directory created",
+    "web drive mounted",
+    "web drive starts up"
+  ]
+end
+
+dep "web directory created" do
+  met? {
+    "/web".p.exists?
+  }
+  meet {
+    "/web".p.create
+  }
+end
+
+dep "web drive mounted" do
+  met? {
+    shell("mount -l")[/web/]
+  }
+  meet {
+    log_shell "Mounting /web", "mount /dev/xvdf /web"
+  }
+end
+
+dep "web drive available" do
+  met? {
+    shell("fdisk -l")[/dev\/xvdf/]
+  }
+  meet {
+    shell("echo 'web drive is not available!")
+  }
+end
+
+dep "web drive formatted" do
+  met? {
+    shell("mount -l")[/ext4/]
+  }
+  meet {
+    shell("mkfs -t ext4 /dev/xvdf")
+  }
+end
+
+dep "web drive starts up" do
+  met? {
+    "/etc/fstab".p.grep(/web1/)
+  }
+  meet {
+    "/etc/fstab".p.append("/dev/xvdf       /web1   auto    defaults,nobootwait     0       0")
+  }
 end
 
 dep "version etc" do
