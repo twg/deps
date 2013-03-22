@@ -4,6 +4,7 @@ dep "libraries" do
     "v8 headers.lib",
     "imagemagick.managed",
     "imagemagick headers.lib",
+    "freeimage.lib",
     "libxml.lib",
     "libxml headers.lib",
     "libxslt.lib",
@@ -22,6 +23,12 @@ end
 dep 'imagemagick headers.lib' do
   installs {
     via :yum, "ImageMagick-devel"
+  }
+end
+
+dep "freeimage.lib" do
+  installs {
+    via :yum, "freeimage"
   }
 end
 
