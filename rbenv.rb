@@ -1,23 +1,3 @@
-dep "rbenv" do
-  requires "ruby-build"
-  versions = [ "2.0.0-p0", "1.9.3-p392" ]
-  met? {
-    versions.each do |version|
-      "~/.rbenv/versions/#{version}".p.exists?
-    end
-  }
-  meet {
-    versions.each do |version|
-      log_shell "Install #{version}", "rbenv install #{version}"
-    end
-  }
-end
-
-meta :rbenv do
-  accepts_value_for :version, :basename
-  accepts_value_for :patchlevel
-end
-
 dep "rbenv installed" do
   met? {
     in_path? "rbenv"
@@ -26,7 +6,7 @@ dep "rbenv installed" do
     git "https://github.com/sstephenson/rbenv.git", :to => "~/.rbenv"
   }
   after {
-    log_shell "Rehash rbenv", "rbenv rehash"
+    log_shell 'Rehashing rbenv bin directory', 'rbenv rehash'
   }
 end
 
@@ -38,10 +18,20 @@ dep "ruby-build" do
   meet {
     git "git://github.com/sstephenson/ruby-build.git", :to => "~/.rbenv/plugins/ruby-build"
   }
+  after {
+    log_shell 'Rehashing rbenv bin directory', 'rbenv rehash'
+  }
 end
 
-dep "ree" do
-  requires "ruby-build"
+dep "2.0.0.rbenv" do
+  patchlevel "0"
+end
+
+dep '1.9.3.rbenv' do
+  patchlevel '392'
+end
+
+dep "ree.rbenv" do
   # 1. patch ruby-build with template
   # 2. rbenv install ree-1.8.7-2012.02
   # 3. remove patch

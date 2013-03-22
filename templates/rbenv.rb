@@ -14,7 +14,7 @@ meta :rbenv do
     requires 'ruby-build', 'yaml headers.managed', 'openssl.lib'
     met? {
       (prefix / 'bin/ruby').executable? and
-      shell(prefix / 'bin/ruby -v')[/^ruby #{version}#{patchlevel}\b/]
+      shell(prefix / 'bin/ruby -v')[/^ruby #{version}p#{patchlevel}\b/]
     }
     meet {
       shell "rbenv install #{version_spec}"

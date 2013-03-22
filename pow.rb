@@ -1,6 +1,6 @@
 dep "pow" do
   requires [
-    "rbenv",
+    "ruby-build",
     "powder.gem"
   ]
 end

@@ -3,7 +3,9 @@ dep "laptop" do
     "ruby",
     "rubygems",
     "packages",
-    "rbenv",
+    "ruby-build",
+    "2.0.0.rbenv",
+    "1.9.3.rbenv",
     "pow",
     "apps"
   ]
