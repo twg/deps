@@ -87,6 +87,8 @@ dep "v8.lib" do
 end
 
 dep "v8 headers.lib" do
-  installs "v8-devel"
+  installs {
+    via :yum, "v8-devel"
+  }
 end
 
