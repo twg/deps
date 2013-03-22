@@ -25,6 +25,7 @@ dep "ec2" do
     "selinux disabled",
     "legacy users removed",
     "ruby",
+    "build tools",
     "rubygems",
     "web directory",
     "login fixed",
