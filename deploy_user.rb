@@ -1,12 +1,12 @@
-dep "deploy user" do
+dep "deploy user exists" do
   requires "web directory"
+  requires "deploy group exists"
 
   met? {
     "/etc/passwd".p.grep("deploy")
   }
 
   meet {
-    shell "groupadd deploy"
     shell "useradd deploy -g deploy"
     # usermod -G wheel deploy
     shell "mkdir /home/deploy/.ssh"
@@ -15,5 +15,14 @@ dep "deploy user" do
     shell "chmod go-rwx /home/deploy/.ssh/*"
     shell "chown -R deploy:deploy /home/deploy/.ssh"
     shell "# chown -R deploy:deploy /web"
+  }
+end
+
+dep "deploy group exists" do
+  met? {
+    "/etc/group".p.grep("deploy")
+  }
+  meet {
+    shell "groupadd deploy"
   }
 end
