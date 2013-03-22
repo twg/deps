@@ -5,8 +5,8 @@ dep "rbenv" do
   }
   meet {
     git "https://github.com/sstephenson/rbenv.git", :to => "~/.rbenv" and
-    "~/.bash_profile".p.append('\nexport PATH="$HOME/.rbenv/bin:$PATH"') and
-    "~/.bash_profile".p.append('\neval "$(rbenv init -)"') and
+    "~/.bash_profile".p.append("\nexport PATH=\"$HOME/.rbenv/bin:$PATH\"") and
+    "~/.bash_profile".p.append("\neval \"$(rbenv init -)\"") and
     shell "source ~/.bash_profile"
   }
   after {
