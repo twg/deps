@@ -1,7 +1,11 @@
 dep "deploy user" do
+  requires "deploy user owns web"
+  requires "bundler.gem"
+end
+
+dep "deploy user exists" do
   requires "web directory"
   requires "deploy group"
-  requires "deploy user owns web"
 
   met? {
     "/etc/passwd".p.grep(/^deploy/)
@@ -9,7 +13,6 @@ dep "deploy user" do
 
   meet {
     shell "useradd deploy -g deploy"
-    # usermod -G wheel deploy
     shell "mkdir /home/deploy/.ssh"
     shell "touch /home/deploy/.ssh/config"
     shell "touch /home/deploy/.ssh/authorized_keys"
@@ -28,6 +31,8 @@ dep "deploy group" do
 end
 
 dep "deploy user owns web" do
+  requires "deploy user exists"
+
   met? {
     # FIXME: This is a weak test
     shell? "ls -l / | grep 'deploy deploy'"
@@ -36,3 +41,5 @@ dep "deploy user owns web" do
     shell "chown -R deploy:deploy /web"
   }
 end
+
+dep "bundler.gem"
