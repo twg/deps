@@ -6,7 +6,9 @@ dep "packages" do
     "tree.bin",
     "pv.bin",
     "htop.bin",
+    "wget.bin",
     "traceroute.bin",
+    "logrotate.bin",
     "imagemagick.managed",
     "imagemagick headers.lib",
     "libxml.lib",
@@ -25,6 +27,8 @@ dep "htop.bin"
 dep "ncdu.bin"
 dep "traceroute.bin"
 dep "nmap.bin"
+dep 'wget.bin'
+dep "logrotate.bin"
 
 dep 'imagemagick.managed' do
   provides %w( animate compare composite conjure convert display identify import mogrify montage stream )
@@ -81,4 +85,10 @@ dep 'zlib headers.lib' do
   }
 end
 
-dep "logrotate.bin"
+dep 'yaml headers.managed' do
+  installs {
+    via :brew, 'libyaml'
+    via :yum, 'libyaml-devel'
+  }
+  provides []
+end
