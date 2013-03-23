@@ -35,8 +35,11 @@ dep '1.9.3.rbenv' do
   patchlevel "392"
 end
 
-dep "ree.rbenv" do
-  # 1. patch ruby-build with template
-  # 2. rbenv install ree-1.8.7-2012.02
-  # 3. remove patch
+dep "gemrc" do
+  met? {
+    "~/.gemrc".p.exists?
+  }
+  meet {
+    log_shell "Writing gemrc", "echo 'gem: --no-ri --no-rdoc' >> ~/.gemrc"
+  }
 end
