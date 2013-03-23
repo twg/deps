@@ -1,5 +1,7 @@
 dep "rbenv" do
   requires "git.bin"
+  requires "gemrc"
+
   met? {
     in_path? "rbenv"
   }
