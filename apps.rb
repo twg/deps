@@ -1,4 +1,4 @@
-dep "apps" do
+dep "apps", :for => :osx do
   requires [
     "Google Chrome.app",
     "Skitch.app",

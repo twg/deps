@@ -1,18 +1,18 @@
 dep "rbenv" do
-  requires "git.bin"
-  requires "gemrc"
+  requires [
+    "git.bin",
+    "gemrc",
+    "rbenv version set"
+  ]
 
   met? {
     in_path? "rbenv"
   }
   meet {
-    git "https://github.com/sstephenson/rbenv.git", :to => "~/.rbenv" and
-    "~/.bash_profile".p.append("\nexport PATH=\"$HOME/.rbenv/bin:$PATH\"") and
-    "~/.bash_profile".p.append("\neval \"$(rbenv init -)\"") and
-    shell "source ~/.bash_profile"
+    git "https://github.com/sstephenson/rbenv.git", :to => "~/.rbenv"
   }
   after {
-    log_shell 'Rehashing rbenv bin directory', 'rbenv rehash'
+    log_shell "Rehashing rbenv bin directory ", "rbenv rehash"
   }
 end
 
@@ -25,7 +25,21 @@ dep "ruby-build" do
     git "git://github.com/sstephenson/ruby-build.git", :to => "~/.rbenv/plugins/ruby-build"
   }
   after {
-    log_shell 'Rehashing rbenv bin directory', 'rbenv rehash'
+    log_shell "Rehashing rbenv bin directory", "rbenv rehash"
+  }
+end
+
+dep "rbenv path" do
+  "~/.bash_profile".p.append("\nexport PATH=\"$HOME/.rbenv/bin:$PATH\"")
+  after {
+    log_shell "Reloading .bash_profile ", "source ~/.bash_profile"
+  }
+end
+
+dep "rbenv init" do
+  "~/.bash_profile".p.append("\neval \"$(rbenv init -)\"")
+  after {
+    log_shell "Reloading .bash_profile ", "source ~/.bash_profile"
   }
 end
 
@@ -42,6 +56,15 @@ dep "gemrc" do
     "~/.gemrc".p.exists?
   }
   meet {
-    log_shell "Writing gemrc", "echo 'gem: --no-ri --no-rdoc' >> ~/.gemrc"
+    log_shell "Writing gemrc", "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
+  }
+end
+
+dep "rbenv version set" do
+  met? {
+    "~/.ruby-version".p.exists?
+  }
+  meet {
+    log_shell "Writing ruby-version", "echo '1.9.3-p392' > ~/.ruby-version"
   }
 end
