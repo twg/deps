@@ -1,11 +1,15 @@
 dep 'vhost enabled.nginx', :vhost_type, :domain, :domain_aliases, :path, :listen_host, :listen_port, :proxy_host, :proxy_port, :nginx_prefix, :enable_http, :enable_https, :force_https do
   requires 'vhost configured.nginx'.with(vhost_type, domain, domain_aliases, path, listen_host, listen_port, proxy_host, proxy_port, nginx_prefix, enable_http, enable_https, force_https)
-  met? { vhost_link.exists? }
+  met? {
+    vhost_link.exists?
+  }
   meet {
     sudo "mkdir -p #{nginx_prefix / 'conf/vhosts/on'}"
     sudo "ln -sf '#{vhost_conf}' '#{vhost_link}'"
   }
-  after { restart_nginx }
+  after {
+    restart_nginx
+  }
 end
 
 dep 'vhost configured.nginx', :vhost_type, :domain, :domain_aliases, :path, :listen_host, :listen_port, :proxy_host, :proxy_port, :nginx_prefix, :enable_http, :enable_https, :force_https do
