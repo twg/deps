@@ -67,16 +67,11 @@ dep "login fixed" do
 end
 
 dep "web directory" do
-  requires [
-    "web drive available",
-    "web drive formatted",
-    "web directory created",
-    "web drive mounted",
-    "web drive starts up"
-  ]
+  requires [ "web drive starts up" ]
 end
 
 dep "web directory created" do
+  requires "web drive available"
   met? {
     "/web".p.exists?
   }
@@ -86,6 +81,7 @@ dep "web directory created" do
 end
 
 dep "web drive mounted" do
+  requires "web directory formatted"
   met? {
     shell("mount -l")[/web/]
   }
@@ -104,6 +100,7 @@ dep "web drive available" do
 end
 
 dep "web drive formatted" do
+  requires "web drive available"
   met? {
     shell("mount -l")[/ext4/]
   }
@@ -113,6 +110,7 @@ dep "web drive formatted" do
 end
 
 dep "web drive starts up" do
+  requires "web drive formatted"
   met? {
     "/etc/fstab".p.grep(/web1/)
   }
