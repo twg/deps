@@ -36,7 +36,7 @@ end
 
 # Required because the standard babushka script doesn't call yum update
 dep "update.task" do
-  log_shell "Update packages", "yum update -y"
+  log_shell "Updating packages", "yum update -y"
 end
 
 dep "root login disabled" do
