@@ -3,7 +3,6 @@ dep "rbenv" do
     "git.bin",
     "gemrc",
     "rbenv init",
-    "rbenv path",
     "rbenv version set"
   ]
 
@@ -39,6 +38,7 @@ dep "rbenv path" do
 end
 
 dep "rbenv init" do
+  requires "rbenv path"
   "~/.bash_profile".p.append("\neval \"$(rbenv init -)\"")
   after {
     log_shell "Reloading .bash_profile ", "source ~/.bash_profile"
