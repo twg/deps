@@ -5,11 +5,9 @@
 #    export RACK_ENV=production or staging
 #    (based on conditional)
 #
-# 2. mount /web directory, which is a separate EBS volume
+# 2. Create deploy user w/keys
 #
-# 3. Create deploy user w/keys
-#
-# 4. add deploy key to two-deploy github user (if possible to automate)
+# 3. add deploy key to two-deploy github user (if possible to automate)
 
 
 # This script is meant to be run as root, and then use the deploy_user script
@@ -65,59 +63,6 @@ dep "login fixed" do
   requires "password authentication disabled"
   after {
     shell "service sshd restart"
-  }
-end
-
-dep "web directory" do
-  requires [ "web drive starts up" ]
-end
-
-dep "web directory created" do
-  requires "web drive available"
-  met? {
-    "/web".p.exists?
-  }
-  meet {
-    "/web".p.create
-  }
-end
-
-dep "web drive mounted" do
-  requires "web directory formatted"
-  met? {
-    shell("mount -l")[/web/]
-  }
-  meet {
-    log_shell "Mounting /web", "mount /dev/xvdf /web"
-  }
-end
-
-dep "web drive available" do
-  met? {
-    shell("fdisk -l")[/dev\/xvdf/]
-  }
-  meet {
-    shell("echo 'web drive is not available!")
-  }
-end
-
-dep "web drive formatted" do
-  requires "web drive available"
-  met? {
-    shell("mount -l")[/ext4/]
-  }
-  meet {
-    shell("mkfs -t ext4 /dev/xvdf")
-  }
-end
-
-dep "web drive starts up" do
-  requires "web drive formatted"
-  met? {
-    "/etc/fstab".p.grep(/web1/)
-  }
-  meet {
-    "/etc/fstab".p.append("/dev/xvdf       /web1   auto    defaults,nobootwait     0       0")
   }
 end
 
