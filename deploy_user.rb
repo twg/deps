@@ -3,7 +3,6 @@ dep "deploy user" do
 end
 
 dep "deploy user exists" do
-  requires "web directory"
   requires "deploy group"
 
   met? {
@@ -31,6 +30,7 @@ end
 
 dep "deploy user owns web" do
   requires "deploy user exists"
+  requires "web directory"
 
   met? {
     # FIXME: This is a weak test
