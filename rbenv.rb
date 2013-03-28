@@ -2,6 +2,8 @@ dep "rbenv" do
   requires [
     "git.bin",
     "gemrc",
+    "rbenv init",
+    "rbenv path",
     "rbenv version set"
   ]
 
