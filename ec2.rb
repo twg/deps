@@ -29,6 +29,8 @@ dep "ec2" do
     "rubygems",
     "web directory",
     "login fixed",
+    "postgresql.managed",
+    "mysql.managed",
     "version etc",
     "deploy user"
   ]
