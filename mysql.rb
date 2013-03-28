@@ -29,7 +29,7 @@ end
 dep 'mysql.managed' do
   installs {
     via :brew, "mysql"
-    via :yum, %w( mysql mysql-dev )
+    via :yum, %w( mysql mysql-devel )
   }
   provides 'mysql'
 end
