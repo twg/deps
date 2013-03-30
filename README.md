@@ -1,15 +1,15 @@
-# babushka-deps
+# deps
 
-Collections of dependencies to put into `~/.babushka/deps`.
+Collections of dependencies to put into `~/.matryoshka/deps`.
 
 To try it out on your laptop,
 
-    $ bash -c "`curl babushka.me/up`"
-    $ babushka twg:laptop
+    $ bash -c "`curl https://s3.amazonaws.com/mtka/up.sh`"
+    $ mk twg:laptop
 
-When you get prompted for where to install babushka, the default is
-`/usr/local/babushka`. For your laptop, that's fine. For linux distros, entering
-`/usr/babushka` when prompted makes the process go smoother.
+When you get prompted for where to install matryoshka, the default is
+`/usr/matryoshka`. For your laptop, you'll want to change that to
+`/usr/local/matryoshka`. For linux distros, the default is preferred.
 
 ## Deps and templates
 
@@ -40,7 +40,7 @@ We can now declare deps like so:
 
     dep "lp.legacy_user"
 
-and babushka will know to get rid of the printer user. It parses the `lp` out of
+and matryoshka will know to get rid of the printer user. It parses the `lp` out of
 the dep name as `:basename` above, which we've set as the default value of
 `:username` in the `accepts_value_for` declaration.
 
