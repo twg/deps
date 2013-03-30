@@ -1,13 +1,13 @@
 meta :nginx do
-  def nginx_bin;    nginx_prefix / "sbin/nginx" end
-  def cert_path;    nginx_prefix / "conf/certs" end
-  def nginx_conf;   nginx_prefix / "conf/nginx.conf" end
-  def vhost_conf;   nginx_prefix / "conf/vhosts/#{domain}.conf" end
-  def vhost_common; nginx_prefix / "conf/vhosts/#{domain}.common" end
-  def vhost_link;   nginx_prefix / "conf/vhosts/on/#{domain}.conf" end
+  def nginx_dir;    "/etc/nginx" end
+  def nginx_bin;    "/usr/sbin/nginx" end
+  def ssl_path;     "/etc/ssl" end
+  def cert_path;    ssl_path / "certs" end
+  def nginx_conf;   nginx_dir / "nginx.conf" end
+  def vhost_conf;   nginx_dir / "conf.d/#{domain}.conf" end
 
   def upstream_name
-    "#{domain}.upstream"
+    "#{domain}_upstream"
   end
   def nginx_running?
     shell? "netstat -an | grep -E '^tcp.*[.:]80 +.*LISTEN'"
