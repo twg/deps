@@ -9,34 +9,25 @@
 #
 # 3. add deploy key to two-deploy github user (if possible to automate)
 
-
-# This script is meant to be run as root, and then use the deploy_user script
-# with the newly created deploy user.
 dep "ec2" do
   setup {
     unmeetable! "This dep has to be run as root." unless shell('whoami') == 'root'
   }
   requires [
-    "update.task",
     "utilities",
     "libraries",
     "selinux disabled",
     "legacy users removed",
     "ruby",
-    "dev tools",
+    "build tools",
     "rubygems",
     "web directory",
+    "deploy user",
     "login fixed",
     "postgres.managed",
     "mysql.managed",
-    "version etc",
-    "deploy user"
+    "version etc"
   ]
-end
-
-# Required because the standard babushka script doesn't call yum update
-dep "update.task" do
-  log_shell "Updating packages", "yum update -y"
 end
 
 dep "root login disabled" do
@@ -81,6 +72,6 @@ dep "version etc" do
       "git config user.email 'admin@twg.ca'",
       "git commit -m 'Initial configuration'"
     ].join(" && ")
-    log_shell "Version the /etc directory", commands
+    log_shell "Versioning the /etc directory", commands
   }
 end
