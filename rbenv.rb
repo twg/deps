@@ -59,3 +59,8 @@ dep '1.9.3.rbenv' do
   patchlevel "392"
 end
 
+# This is the last ruby that works with rails 2.3
+dep '1.9.2.rbenv' do
+  patchlevel "320"
+end
+
