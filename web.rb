@@ -18,13 +18,13 @@ dep "web drive mounted" do
     shell("mount -l")[/web/]
   }
   meet {
-    log_shell "Mounting /web", "mount /dev/xvdf /web"
+    log_shell "Mounting /web", "mount /dev/xvdb /web"
   }
 end
 
 dep "web drive available" do
   met? {
-    shell("fdisk -l")[/dev\/xvdf/]
+    shell("fdisk -l")[/dev\/xvdb/]
   }
   meet {
     # This should be an unmeetable condition
@@ -38,7 +38,7 @@ dep "web drive formatted" do
     shell("mount -l")[/ext4/]
   }
   meet {
-    shell("mkfs -t ext4 /dev/xvdf")
+    shell("mkfs -t ext4 /dev/xvdb")
   }
 end
 
@@ -48,7 +48,7 @@ dep "web drive starts up" do
     "/etc/fstab".p.grep(/web1/)
   }
   meet {
-    "/etc/fstab".p.append("/dev/xvdf       /web1   auto    defaults,nobootwait     0       0")
+    "/etc/fstab".p.append("/dev/xvdb       /web1   auto    defaults,nobootwait     0       0")
   }
 end
 
