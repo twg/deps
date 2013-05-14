@@ -1,4 +1,4 @@
-# This set of deps is currently Fedora-specific
+# This set of deps is Fedora-specific
 #
 # TODO:
 # 1. export RAILS_ENV=production or staging
@@ -7,7 +7,7 @@
 #
 # 2. Create deploy user w/keys
 #
-# 3. add deploy key to two-deploy github user (if possible to automate)
+# 3. add deploy key to twg-deploy github user (if possible to automate)
 
 dep "ec2" do
   setup {
@@ -26,18 +26,9 @@ dep "ec2" do
     "login fixed",
     "postgres.managed",
     "mysql.managed",
-    "version etc"
+    "version etc",
+    "nodejs.lib"
   ]
-end
-
-dep "root login disabled" do
-  requires "perl.bin"
-  met? {
-    "/etc/ssh/sshd_config".p.grep(/^PermitRootLogin no/)
-  }
-  meet {
-    shell "perl -pi -e 's/\#PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config"
-  }
 end
 
 dep "password authentication disabled" do
@@ -50,7 +41,6 @@ dep "password authentication disabled" do
 end
 
 dep "login fixed" do
-  requires "root login disabled"
   requires "password authentication disabled"
   after {
     shell "service sshd restart"
