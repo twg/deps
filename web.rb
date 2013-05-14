@@ -27,7 +27,8 @@ dep "web drive available" do
     shell("fdisk -l")[/dev\/xvdf/]
   }
   meet {
-    shell("echo 'web drive is not available!")
+    # This should be an unmeetable condition
+    shell("echo 'web drive is not available!'")
   }
 end
 
