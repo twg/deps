@@ -1,1 +1,1 @@
-dep "nodejs.bin"
+dep "nodejs.lib"
