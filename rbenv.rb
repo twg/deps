@@ -1,47 +1,53 @@
-dep "rbenv" do
+dep "rbenv with rubies" do
   requires [
-    "git.bin",
     "gemrc",
-    "rbenv init",
-    "rbenv version set"
+    "2.0.0.rbenv",
+    "1.9.3.rbenv"
   ]
+end
 
+dep "gemrc" do
   met? {
-    in_path? "rbenv"
-  }
-  meet {
-    git "https://github.com/sstephenson/rbenv.git", :to => "~/.rbenv"
+    "~/.gemrc".p.exists?
   }
   after {
     log_shell "Rehashing rbenv bin directory ", "rbenv rehash"
   }
+  meet {
+    log_shell "Writing gemrc", "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
+  }
+end
+
+dep "rbenv" do
+  requires "git.bin"
+
+  met? {
+    "~/.rbenv/bin/rbenv".p.exists?
+  }
+  meet {
+    git "https://github.com/sstephenson/rbenv.git", :to => "~/.rbenv"
+  }
+end
+
+dep "rbenv init" do
+  requires "rbenv"
+
+  "~/.bash_profile".p.append("\nexport PATH=\"$HOME/.rbenv/bin:$PATH\"")
+  "~/.bash_profile".p.append("\neval \"$(rbenv init -)\"")
+
+  after {
+    log_shell "Reloading .bash_profile ", "source ~/.bash_profile"
+  }
 end
 
 dep "ruby-build" do
-  requires "rbenv"
+  requires "rbenv init"
+
   met? {
     "~/.rbenv/plugins/ruby-build".p.exists?
   }
   meet {
     git "git://github.com/sstephenson/ruby-build.git", :to => "~/.rbenv/plugins/ruby-build"
-  }
-  after {
-    log_shell "Rehashing rbenv bin directory", "rbenv rehash"
-  }
-end
-
-dep "rbenv path" do
-  "~/.bash_profile".p.append("\nexport PATH=\"$HOME/.rbenv/bin:$PATH\"")
-  after {
-    log_shell "Reloading .bash_profile ", "source ~/.bash_profile"
-  }
-end
-
-dep "rbenv init" do
-  requires "rbenv path"
-  "~/.bash_profile".p.append("\neval \"$(rbenv init -)\"")
-  after {
-    log_shell "Reloading .bash_profile ", "source ~/.bash_profile"
   }
 end
 
@@ -53,20 +59,3 @@ dep '1.9.3.rbenv' do
   patchlevel "392"
 end
 
-dep "gemrc" do
-  met? {
-    "~/.gemrc".p.exists?
-  }
-  meet {
-    log_shell "Writing gemrc", "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
-  }
-end
-
-dep "rbenv version set" do
-  met? {
-    "~/.ruby-version".p.exists?
-  }
-  meet {
-    log_shell "Writing ruby-version", "echo '1.9.3-p392' > ~/.ruby-version"
-  }
-end
