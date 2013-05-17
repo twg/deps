@@ -61,7 +61,6 @@ dep 'openssl headers.lib' do
   installs {
     via :yum, 'openssl-devel'
   }
-  provides []
 end
 
 dep 'zlib headers.lib' do
