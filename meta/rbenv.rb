@@ -14,7 +14,12 @@ meta :rbenv do
     def version_group
       version.scan(/^\d\.\d/).first
     end
-    requires 'ruby-build', 'yaml headers.lib', 'openssl.lib'
+    requires [
+      'readline headers.lib',
+      'ruby-build',
+      'yaml headers.lib',
+      'openssl.lib'
+    ]
     met? {
       (prefix / 'bin/ruby').executable? and
       shell(prefix / 'bin/ruby -v')[/^ruby #{version}#{patch}\b/]
