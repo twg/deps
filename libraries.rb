@@ -57,12 +57,6 @@ dep 'libxslt headers.lib' do
 end
 
 dep 'openssl.bin'
-dep 'openssl.lib' do
-  installs {
-    via :yum, "openssl-libs"
-  }
-end
-
 dep 'openssl headers.lib' do
   installs {
     via :yum, 'openssl-devel'

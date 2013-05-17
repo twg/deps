@@ -18,7 +18,7 @@ meta :rbenv do
       'readline headers.lib',
       'ruby-build',
       'yaml headers.lib',
-      'openssl.lib'
+      'openssl headers.lib'
     ]
     met? {
       (prefix / 'bin/ruby').executable? and
