@@ -60,6 +60,8 @@ dep '1.9.3.rbenv' do
 end
 
 # This is the last ruby that works with rails 2.3
+# TODO: requires https://github.com/kennethreitz/osx-gcc-installer/downloads
+# on mac systems (rubies before 1.9.3 don't work with llvm-gcc
 dep '1.9.2.rbenv' do
   patchlevel "320"
 end
