@@ -6,7 +6,6 @@ dep "utilities" do
     "lsof.bin",
     "tree.bin",
     "pv.bin",
-    "htop.bin",
     "iotop.bin",
     "ncdu.bin",
     "wget.bin",
@@ -23,7 +22,6 @@ dep "emacs.bin"
 dep "lsof.bin"
 dep "tree.bin"
 dep "pv.bin"
-dep "htop.bin"
 dep "iotop.bin"
 dep "ncdu.bin"
 dep "wget.bin"
