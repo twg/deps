@@ -33,3 +33,7 @@ end
 dep "SQLEditor.app" do
   source "http://www.malcolmhardie.com/sqleditor/releases/2.0.12/SQLEditor-2-0-12.zip"
 end
+
+dep "Postgres.app" do
+  source "http://postgres-app.s3.amazonaws.com/PostgresApp-9-2-4-1.zip"
+end
