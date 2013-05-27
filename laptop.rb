@@ -2,7 +2,6 @@ dep "laptop" do
   requires [
     "ruby",
     "rubygems",
-    "utilities",
     "vim config",
     "libraries",
     "ruby-build",
