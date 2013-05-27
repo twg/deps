@@ -1,22 +1,21 @@
 dep "apps", :for => :osx do
   requires [
     "1Password.app",
-    "Dropbox.app",
+    "Sublime.app",
     "Firefox.app",
     "Google Chrome.app",
     "Postgres.app",
-    "Skitch.app",
     "Skype.app",
     "SQLEditor.app"
   ]
 end
 
-dep "1Password.app" do
-  source "https://d13itkw33a7sus.cloudfront.net/dist/1P/mac/1Password-3.8.20.zip"
+dep "Sublime.app" do
+  source "http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%202.0.1.dmg"
 end
 
-dep "Dropbox.app" do
-  source 'http://cdn.dropbox.com/Dropbox%201.2.49.dmg'
+dep "1Password.app" do
+  source "https://d13itkw33a7sus.cloudfront.net/dist/1P/mac/1Password-3.8.20.zip"
 end
 
 dep "Firefox.app" do
@@ -25,10 +24,6 @@ end
 
 dep "Google Chrome.app" do
   source "https://dl-ssl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg"
-end
-
-dep "Skitch.app" do
-  source "http://get.skitch.com/skitch.zip"
 end
 
 dep "Skype.app" do
