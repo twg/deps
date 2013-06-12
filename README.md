@@ -4,7 +4,7 @@ Collections of dependencies to put into `~/.matryoshka/deps`.
 
 To try it out on your laptop,
 
-    $ bash -c "`curl https://s3.amazonaws.com/mtka/up.sh`"
+    $ sh -c "`curl http://langstroth.net/projects/matryoshka/setup.sh`"
     $ mk twg:laptop
 
 When you get prompted for where to install matryoshka, the default is
