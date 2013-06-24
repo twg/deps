@@ -1,0 +1,24 @@
+upstream <%= app_name %>_unicorn {
+    server unix:/web/<%= app_name %>/shared/unicorn.sock fail_timeout=0;
+}
+
+server {
+    server_name <%= domain %>;
+    rewrite ^(.*) http://www.<%= domain %>$1 permanent;
+}
+
+server {
+    server_name www.<%= domain %>;
+    root /web/<%= app_name %>/current/public;
+
+    location / {
+        try_files $uri @<%= app_name %>;
+    }
+
+    location @<%= app_name %> {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        proxy_pass http://<%= app_name %>_unicorn;
+    }
+}
