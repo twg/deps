@@ -22,7 +22,7 @@ dep "rbenv" do
   requires "git.bin"
 
   met? {
-    "~/.rbenv/bin/rbenv".p.exists?
+    "~/.rbenv".p.exists?
   }
   meet {
     git "https://github.com/sstephenson/rbenv.git", :to => "~/.rbenv"
