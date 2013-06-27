@@ -8,8 +8,8 @@ To try it out on your laptop,
     $ mk twg:laptop
 
 When you get prompted for where to install matryoshka, the default is
-`/usr/matryoshka`. For your laptop, you'll want to change that to
-`/usr/local/matryoshka`. For linux distros, the default is preferred.
+`/usr/local/matryoshka`. For a server, you might want to change that to
+`/usr/matryoshka`.
 
 ## Deps and templates
 
