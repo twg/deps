@@ -26,8 +26,8 @@ dep "Google Chrome.app" do
   source "https://dl-ssl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg"
 end
 
-dep "Skype.app" do
-  source "http://www.skype.com/en/download-skype/skype-for-mac/downloading/"
+dep "HipChat.app" do
+  source "http://downloads.hipchat.com.s3.amazonaws.com/osx/HipChat-2.0.zip"
 end
 
 dep "SQLEditor.app" do
