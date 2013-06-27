@@ -2,7 +2,6 @@ dep "laptop" do
   requires [
     "ruby",
     "rubygems",
-    "vim config",
     "libraries",
     "ruby-build",
     "2.0.0.rbenv",
