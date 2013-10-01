@@ -5,7 +5,6 @@ dep "apps", :for => :osx do
     "Firefox.app",
     "Google Chrome.app",
     "Postgres.app",
-    "Skype.app",
     "SQLEditor.app"
   ]
 end
