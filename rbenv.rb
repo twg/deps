@@ -52,7 +52,7 @@ dep "ruby-build" do
 end
 
 dep "2.0.0.rbenv" do
-  patchlevel "247"
+  patchlevel "353"
 end
 
 dep '1.9.3.rbenv' do
@@ -65,4 +65,3 @@ end
 dep '1.9.2.rbenv' do
   patchlevel "320"
 end
-
