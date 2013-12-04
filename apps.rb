@@ -29,5 +29,5 @@ dep "SQLEditor.app" do
 end
 
 dep "Postgres.app" do
-  source "http://postgres-app.s3.amazonaws.com/PostgresApp-9-2-4-1.zip"
+  source "https://github.com/PostgresApp/PostgresApp/releases/download/9.3.1.0-alpha1/Postgres93.zip"
 end
