@@ -14,7 +14,7 @@ dep 'linux dev tools', :template => 'bin' do
 end
 
 dep 'xcode dev tools', :template => 'external' do
-  expects %w[cc gcc c++ g++ llvm-gcc llvm-g++ clang make ld libtool]
+  expects %w[cc gcc c++ g++ clang make ld]
   otherwise {
     unmeetable! "Install Xcode via the App Store, then go Preferences -> Downloads -> Components -> Command Line Tools."
   }
